@@ -161,7 +161,10 @@
             fetch(WEB_APP_URL)
                 .then(response => response.json())
                 .then(data => {
-                    allData = data;
+                    allData = {
+                        firstTest: data.firstTest || [],
+                        secondTest: data.secondTest || []
+                    };
                     document.getElementById('last-updated').innerText = 'Last Synced: ' + new Date().toLocaleTimeString();
                     updateDashboard();
                 })
@@ -250,6 +253,10 @@
                 document.getElementById('kpi-failed').innerText = '0';
                 document.getElementById('kpi-pass-rate').innerText = '0.00%';
                 document.getElementById('kpi-fail-rate').innerText = '0.00%';
+                
+                // Clear charts and tables
+                renderCharts([], []);
+                renderTables([]);
                 return;
             }
 
@@ -271,7 +278,7 @@
             document.getElementById('kpi-fail-rate').innerText = failRate;
 
             let testTitlePrefix = currentTestType === 'first' ? 'First Test' : 'Second Test';
-            document.getElementById('olt-chart-title').innerText = currentRegion === 'All' ? 
+            document.getElementById('olt-chart-title').innerText = currentRegion === 'All' ?  
                 `${testTitlePrefix} - Pass vs Fail & Total Comparison (All Regions)` : `${testTitlePrefix} - Pass vs Fail & Total Comparison (${currentRegion})`;
 
             renderCharts(rawDataSet, filteredData);
