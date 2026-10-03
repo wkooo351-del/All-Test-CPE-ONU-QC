@@ -254,8 +254,10 @@
         }
 
         function getCurrentActiveDataset() {
-            return currentTestType === 'first' ? allData.firstTest : allData.secondTest;
-        }
+    if (currentTestType === 'first') return allData.firstTest;
+    if (currentTestType === 'exchange') return allData.exchangeTest;
+    return allData.secondTest;
+}
 
         function updateDashboard() {
             let rawDataSet = getCurrentActiveDataset();
