@@ -22,12 +22,14 @@
                 <span class="bg-white p-2 rounded-lg shadow text-indigo-600 font-bold">📊</span>
                 <h1 class="text-xl sm:text-2xl font-bold text-white">ONU Inspection Report Dashboard</h1>
             </div>
-            
-            <!-- Test Switcher Tabs (First Test vs Second Test) -->
-            <div class="flex bg-indigo-700 p-1 rounded-xl shadow-inner">
-                <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">First Test</button>
-                <button id="tab-second" onclick="switchTestType('second')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Second Test</button>
-            </div>
+            <!-- Test Switcher Tabs (First Test vs Second Test vs Exchange Devices) -->
+<div class="flex bg-indigo-700 p-1 rounded-xl shadow-inner">
+  <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">First Test</button>
+  <button id="tab-second" onclick="switchTestType('second')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Second Test</button>
+  
+  <!-- ⬇️ ဒီခလုတ်အသစ်ကို ထပ်ထည့်ပါ -->
+  <button id="tab-exchange" onclick="switchTestType('exchange')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Exchange Devices</button>
+</div>
 
             <div class="flex items-center space-x-3">
                 <span id="last-updated" class="text-xs text-indigo-200">Connecting...</span>
