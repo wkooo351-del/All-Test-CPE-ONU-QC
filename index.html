@@ -190,15 +190,26 @@
             });
 
             if (type === 'first') {
-                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-                document.getElementById('active-test-label').innerText = 'First Test';
-            } else {
-                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-                document.getElementById('active-test-label').innerText = 'Second Test';
-            }
-
+        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        let tabEx = document.getElementById('tab-exchange');
+        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        document.getElementById('active-test-label').innerText = 'First Test';
+    } 
+    else if (type === 'second') {
+        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        let tabEx = document.getElementById('tab-exchange');
+        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        document.getElementById('active-test-label').innerText = 'Second Test';
+    } 
+    else if (type === 'exchange') {
+        let tabEx = document.getElementById('tab-exchange');
+        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+        document.getElementById('active-test-label').innerText = 'Exchange Devices';
+    }
             updateDashboard();
         }
 
