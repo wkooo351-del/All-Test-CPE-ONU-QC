@@ -22,11 +22,11 @@
                 <span class="bg-white p-2 rounded-lg shadow text-indigo-600 font-bold">📊</span>
                 <h1 class="text-xl sm:text-2xl font-bold text-white">ONU Inspection Report Dashboard</h1>
             </div>
-            <!-- Test Switcher Tabs (First Test vs Second Test vs Exchange Devices) -->
+            <!-- Test Switcher Tabs -->
             <div class="flex bg-indigo-700 p-1 rounded-xl shadow-inner">
-                <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">First Test</button>
+                <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">First Test</button>
                 <button id="tab-second" onclick="switchTestType('second')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Second Test</button>
-                <button id="tab-exchange" onclick="switchTestType('exchange')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Exchange Devices</button>
+                <button id="tab-exchange" onclick="switchTestType('exchange')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">Exchange Devices</button>
             </div>
 
             <div class="flex items-center space-x-3">
@@ -40,7 +40,7 @@
 
         <!-- Region Filter Bar -->
         <div class="bg-white p-4 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
-            <span class="text-sm font-semibold text-gray-600 uppercase tracking-wider"><span id="active-test-label">First Test</span> - Select Region:</span>
+            <span class="text-sm font-semibold text-gray-600 uppercase tracking-wider"><span id="active-test-label">Exchange Devices</span> - Select Region:</span>
             <div class="flex flex-wrap gap-2" id="region-filters">
                 <button onclick="filterRegion('All')" class="px-4 py-2 text-sm font-medium rounded-lg bg-indigo-600 text-white transition shadow" data-region="All">All Regions</button>
                 <button onclick="filterRegion('OVF-Provision-HGAO')" class="px-4 py-2 text-sm font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition" data-region="OVF-Provision-HGAO">OVF-Provision-HGAO</button>
@@ -102,7 +102,6 @@
 
         <!-- Tables Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Inspection Parameters Failure Summary -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
                     <h3 class="text-base font-bold text-gray-800">Inspection Parameters Failure Summary</h3>
@@ -121,7 +120,6 @@
                 </div>
             </div>
 
-            <!-- Device Models Performance & Failures -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div class="px-6 py-4 bg-gray-50 border-b border-gray-100">
                     <h3 class="text-base font-bold text-gray-800">Device Models Performance & Failures</h3>
@@ -150,7 +148,7 @@
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwcVFwK_-6uwfhLpvgkgt0whtCREMS1G1pvLP-KPX5jPPq73spnCW_4A2ZAR10y4vOnhg/exec';
 
         let allData = { firstTest: [], secondTest: [], exchangeTest: [] };
-        let currentTestType = 'first'; // 'first', 'second', or 'exchange'
+        let currentTestType = 'exchange'; // Default to exchange if needed, or 'first'
         let currentRegion = 'All';
 
         let oltChartInstance = null;
@@ -177,9 +175,8 @@
 
         function switchTestType(type) {
             currentTestType = type;
-            currentRegion = 'All'; // Reset region on test switch
+            currentRegion = 'All'; 
             
-            // Reset region button styles
             document.querySelectorAll('#region-filters button').forEach(btn => {
                 if(btn.getAttribute('data-region') === 'All') {
                     btn.className = 'px-4 py-2 text-sm font-medium rounded-lg bg-indigo-600 text-white transition shadow';
@@ -188,25 +185,18 @@
                 }
             });
 
+            document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+            document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+            document.getElementById('tab-exchange').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+
             if (type === 'first') {
                 document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-                let tabEx = document.getElementById('tab-exchange');
-                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
                 document.getElementById('active-test-label').innerText = 'First Test';
-            } 
-            else if (type === 'second') {
+            } else if (type === 'second') {
                 document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-                let tabEx = document.getElementById('tab-exchange');
-                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
                 document.getElementById('active-test-label').innerText = 'Second Test';
-            } 
-            else if (type === 'exchange') {
-                let tabEx = document.getElementById('tab-exchange');
-                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+            } else if (type === 'exchange') {
+                document.getElementById('tab-exchange').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
                 document.getElementById('active-test-label').innerText = 'Exchange Devices';
             }
             updateDashboard();
@@ -343,7 +333,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
 
-            // Monthly Trend Chart
             let months = [
                 { name: 'September 2026', monthIndex: 8 },
                 { name: 'October 2026', monthIndex: 9 },
