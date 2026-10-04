@@ -23,13 +23,11 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-white">ONU Inspection Report Dashboard</h1>
             </div>
             <!-- Test Switcher Tabs (First Test vs Second Test vs Exchange Devices) -->
-<div class="flex bg-indigo-700 p-1 rounded-xl shadow-inner">
-  <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">First Test</button>
-  <button id="tab-second" onclick="switchTestType('second')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Second Test</button>
-  
-  <!-- ⬇️ ဒီခလုတ်အသစ်ကို ထပ်ထည့်ပါ -->
-  <button id="tab-exchange" onclick="switchTestType('exchange')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Exchange Devices</button>
-</div>
+            <div class="flex bg-indigo-700 p-1 rounded-xl shadow-inner">
+                <button id="tab-first" onclick="switchTestType('first')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow">First Test</button>
+                <button id="tab-second" onclick="switchTestType('second')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Second Test</button>
+                <button id="tab-exchange" onclick="switchTestType('exchange')" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600">Exchange Devices</button>
+            </div>
 
             <div class="flex items-center space-x-3">
                 <span id="last-updated" class="text-xs text-indigo-200">Connecting...</span>
@@ -151,8 +149,8 @@
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby4OyrJBpLO2MyJb56NMwJ-hrtEWtatcj-Wa8OUOnDYyGOcA6CPqgQCYnryT6bLOGtQew/exec';
 
-        let allData = { firstTest: [], secondTest: [] };
-        let currentTestType = 'first'; // 'first' or 'second'
+        let allData = { firstTest: [], secondTest: [], exchangeTest: [] };
+        let currentTestType = 'first'; // 'first', 'second', or 'exchange'
         let currentRegion = 'All';
 
         let oltChartInstance = null;
@@ -165,7 +163,8 @@
                 .then(data => {
                     allData = {
                         firstTest: data.firstTest || [],
-                        secondTest: data.secondTest || []
+                        secondTest: data.secondTest || [],
+                        exchangeTest: data.exchangeTest || []
                     };
                     document.getElementById('last-updated').innerText = 'Last Synced: ' + new Date().toLocaleTimeString();
                     updateDashboard();
@@ -190,26 +189,26 @@
             });
 
             if (type === 'first') {
-        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        let tabEx = document.getElementById('tab-exchange');
-        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        document.getElementById('active-test-label').innerText = 'First Test';
-    } 
-    else if (type === 'second') {
-        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        let tabEx = document.getElementById('tab-exchange');
-        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        document.getElementById('active-test-label').innerText = 'Second Test';
-    } 
-    else if (type === 'exchange') {
-        let tabEx = document.getElementById('tab-exchange');
-        if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
-        document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
-        document.getElementById('active-test-label').innerText = 'Exchange Devices';
-    }
+                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                let tabEx = document.getElementById('tab-exchange');
+                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                document.getElementById('active-test-label').innerText = 'First Test';
+            } 
+            else if (type === 'second') {
+                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                let tabEx = document.getElementById('tab-exchange');
+                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                document.getElementById('active-test-label').innerText = 'Second Test';
+            } 
+            else if (type === 'exchange') {
+                let tabEx = document.getElementById('tab-exchange');
+                if(tabEx) tabEx.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition bg-white text-indigo-600 shadow';
+                document.getElementById('tab-first').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                document.getElementById('tab-second').className = 'px-4 py-1.5 rounded-lg text-sm font-semibold transition text-white hover:bg-indigo-600';
+                document.getElementById('active-test-label').innerText = 'Exchange Devices';
+            }
             updateDashboard();
         }
 
@@ -254,22 +253,20 @@
         }
 
         function getCurrentActiveDataset() {
-    if (currentTestType === 'first') return allData.firstTest;
-    if (currentTestType === 'exchange') return allData.exchangeTest;
-    return allData.secondTest;
-}
+            if (currentTestType === 'first') return allData.firstTest;
+            if (currentTestType === 'exchange') return allData.exchangeTest;
+            return allData.secondTest;
+        }
 
         function updateDashboard() {
             let rawDataSet = getCurrentActiveDataset();
             if (!rawDataSet || rawDataSet.length === 0) {
-                // Clear KPIs if empty
                 document.getElementById('kpi-total').innerText = '0';
                 document.getElementById('kpi-passed').innerText = '0';
                 document.getElementById('kpi-failed').innerText = '0';
                 document.getElementById('kpi-pass-rate').innerText = '0.00%';
                 document.getElementById('kpi-fail-rate').innerText = '0.00%';
                 
-                // Clear charts and tables
                 renderCharts([], []);
                 renderTables([]);
                 return;
@@ -292,7 +289,7 @@
             document.getElementById('kpi-pass-rate').innerText = passRate;
             document.getElementById('kpi-fail-rate').innerText = failRate;
 
-            let testTitlePrefix = currentTestType === 'first' ? 'First Test' : 'Second Test';
+            let testTitlePrefix = currentTestType === 'first' ? 'First Test' : (currentTestType === 'exchange' ? 'Exchange Devices' : 'Second Test');
             document.getElementById('olt-chart-title').innerText = currentRegion === 'All' ?  
                 `${testTitlePrefix} - Pass vs Fail & Total Comparison (All Regions)` : `${testTitlePrefix} - Pass vs Fail & Total Comparison (${currentRegion})`;
 
